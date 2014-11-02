@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 
 /**
  * Created by dragos on 02/11/14.
@@ -21,6 +22,7 @@ public class MapActor extends AbstractActor {
             {"a", "am", "an", "and", "are", "as", "at", "be", "do", "go", "if", "in", "is", "it", "of", "on", "the", "to"};
     private List<String> STOP_WORDS_LIST = Arrays.asList(STOP_WORDS);
     private final LoggingAdapter log = Logging.getLogger(context().system(), this);
+    private Pattern numberPattern = Pattern.compile("[+-]?\\d*(\\.\\d+)?");
 
     public MapActor() {
         receive(ReceiveBuilder
@@ -35,7 +37,7 @@ public class MapActor extends AbstractActor {
 
         while (parser.hasMoreTokens()) {
             String word = parser.nextToken().toLowerCase();
-            if (!STOP_WORDS_LIST.contains(word)) {
+            if (!STOP_WORDS_LIST.contains(word) && !numberPattern.matcher(word).matches()) {
                 dataList.add(new WordCount(word, 1));
             }
         }

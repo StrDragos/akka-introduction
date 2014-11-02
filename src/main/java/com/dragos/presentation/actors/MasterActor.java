@@ -17,7 +17,7 @@ import com.dragos.presentation.models.Result;
 public class MasterActor extends AbstractActor {
     private ActorRef mapActor = context().actorOf(new RoundRobinPool(5).props(Props.create(MapActor.class)), "mapActor");
     private ActorRef reduceActor = context().actorOf(new RoundRobinPool(5).props(Props.create(ReduceActor.class)), "reduceActor");
-    private ActorRef aggregateActor = context().actorOf(new RoundRobinPool(5).props(Props.create(AggregateActor.class)), "aggregateActor");
+    private ActorRef aggregateActor = context().actorOf(Props.create(AggregateActor.class));
     private final LoggingAdapter log = Logging.getLogger(context().system(), this);
 
     public MasterActor() {
