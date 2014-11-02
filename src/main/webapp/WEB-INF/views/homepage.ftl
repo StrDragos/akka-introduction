@@ -13,10 +13,10 @@
 <body>
 <div class="container, jumbotron">
     <div class="row">
-    <@spring.bind "pageModel" />
+        <@spring.bind "pageModel" />
         <form name="model" method="POST" action="/countwords">
             <label for="frase">Your statment</label>
-            <textarea class="col-lg-12" rows="10"><#if pageModel.countFor??>${pageModel.countFor}</#if></textarea>
+            <textarea class="col-lg-12" rows="10" name="countFor"><#if pageModel.countFor??>${pageModel.countFor}</#if></textarea>
 
             <div class="col-lg-12"><p><#if pageModel.countedWords??>${pageModel.countedWords}</#if></p></div>
             <div class="col-lg-12">
