@@ -1,16 +1,18 @@
 package com.dragos.presentation.services;
 
+import org.springframework.stereotype.Service;
+
+import scala.concurrent.Await;
+import scala.concurrent.Future;
+import scala.concurrent.duration.Duration;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.pattern.Patterns;
 import akka.util.Timeout;
+
 import com.dragos.presentation.actors.MasterActor;
 import com.dragos.presentation.models.Result;
-import org.springframework.stereotype.Service;
-import scala.concurrent.Await;
-import scala.concurrent.Future;
-import scala.concurrent.duration.Duration;
 
 /**
  * Created by dragos on 02/11/14.
@@ -30,4 +32,5 @@ public class ParseFrase {
         Future<Object> future = Patterns.ask(masterActor, new Result(), timeout);
         return (String) Await.result(future, timeout.duration());
     }
+
 }

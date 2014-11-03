@@ -1,14 +1,15 @@
 package com.dragos.presentation.actors;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import akka.actor.AbstractActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
+
 import com.dragos.presentation.models.ReduceData;
 import com.dragos.presentation.models.Result;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by dragos on 02/11/14.
@@ -35,6 +36,6 @@ public class AggregateActor extends AbstractActor {
                 finalList.put(key, reducedList.get(key));
             }
         }
-    }
 
+    }
 }
