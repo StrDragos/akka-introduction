@@ -17,13 +17,13 @@ import scala.concurrent.duration.Duration;
 public class MasterActor extends AbstractActor {
     private ActorRef mapActor = context().actorOf(new RoundRobinPool(5).props(Props.create(MapActor.class)), "mapActor");
     private ActorRef reduceActor = context().actorOf(new RoundRobinPool(5).props(Props.create(ReduceActor.class)), "reduceActor");
-    private ActorRef aggregateActor = context().actorOf(Props.create(AggregateActor.class));
+    private ActorRef aggregateActor = context().actorOf(Props.create(AggregateActor.class), "aggregateActor");
     private final LoggingAdapter log = Logging.getLogger(context().system(), this);
 
     private SupervisorStrategy strategy = new OneForOneStrategy(10, Duration.create("1 minute"),
             DeciderBuilder
                     .match(IllegalArgumentException.class, e -> {
-                        log.info("restarted actor ");
+                        log.info("restart actor ");
                         return SupervisorStrategy.restart();
                     })
                     .matchAny(e -> SupervisorStrategy.escalate()).build());

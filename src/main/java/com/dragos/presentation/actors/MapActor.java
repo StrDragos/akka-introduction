@@ -1,19 +1,18 @@
 package com.dragos.presentation.actors;
 
+import akka.actor.AbstractActor;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
+import akka.japi.pf.ReceiveBuilder;
+import com.dragos.presentation.models.MapData;
+import com.dragos.presentation.models.WordCount;
+import com.google.common.base.Strings;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
-
-import akka.actor.AbstractActor;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
-import akka.japi.pf.ReceiveBuilder;
-
-import com.dragos.presentation.models.MapData;
-import com.dragos.presentation.models.WordCount;
-import com.google.common.base.Strings;
 
 /**
  * Created by dragos on 02/11/14.
@@ -34,6 +33,7 @@ public class MapActor extends AbstractActor {
     }
 
     private MapData evaluateExpression(String line) {
+        log.info("handle message {}", line);
         if(Strings.isNullOrEmpty(line)){
             throw new IllegalArgumentException();
         }

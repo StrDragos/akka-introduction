@@ -19,10 +19,10 @@ import scala.concurrent.duration.Duration;
 @Service
 public class ParsePhrase {
 
-    private ActorRef masterActor = ActorSystem.create("masterActor").actorOf(Props.create(MasterActor.class));
+    private ActorRef masterActor = ActorSystem.create("masterActor").actorOf(Props.create(MasterActor.class), "masterActor");
 
-    public void parse(String frase) {
-        masterActor.tell(frase, ActorRef.noSender());
+    public void parse(String phrase) {
+        masterActor.tell(phrase, ActorRef.noSender());
     }
 
     public String askForResults() throws Exception {
