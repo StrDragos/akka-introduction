@@ -1,20 +1,15 @@
 package com.dragos.presentation.actors;
 
-import scala.concurrent.duration.Duration;
-import akka.actor.AbstractActor;
-import akka.actor.ActorRef;
-import akka.actor.AllForOneStrategy;
-import akka.actor.Props;
-import akka.actor.SupervisorStrategy;
+import akka.actor.*;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.DeciderBuilder;
 import akka.japi.pf.ReceiveBuilder;
 import akka.routing.RoundRobinPool;
-
 import com.dragos.presentation.models.MapData;
 import com.dragos.presentation.models.ReduceData;
 import com.dragos.presentation.models.Result;
+import scala.concurrent.duration.Duration;
 
 /**
  * Created by dragos on 02/11/14.
@@ -25,9 +20,12 @@ public class MasterActor extends AbstractActor {
     private ActorRef aggregateActor = context().actorOf(Props.create(AggregateActor.class));
     private final LoggingAdapter log = Logging.getLogger(context().system(), this);
 
-    private static SupervisorStrategy strategy = new AllForOneStrategy(10, Duration.create("1 minute"),
+    private SupervisorStrategy strategy = new OneForOneStrategy(10, Duration.create("1 minute"),
             DeciderBuilder
-                    .match(IllegalArgumentException.class, e -> SupervisorStrategy.restart())
+                    .match(IllegalArgumentException.class, e -> {
+                        log.info("restarted actor ");
+                        return SupervisorStrategy.restart();
+                    })
                     .matchAny(e -> SupervisorStrategy.escalate()).build());
 
     public MasterActor() {

@@ -1,6 +1,6 @@
 package com.dragos.presentation.controller;
 
-import com.dragos.presentation.services.ParseFrase;
+import com.dragos.presentation.services.ParsePhrase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,7 +14,7 @@ import java.io.IOException;
 public class HomeController {
 
     @Autowired
-    private ParseFrase parseFrase;
+    private ParsePhrase parsePhrase;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView getHomePage() throws IOException {
@@ -25,7 +25,7 @@ public class HomeController {
 
     @RequestMapping(value = "/countwords", method = RequestMethod.POST)
     public ModelAndView askForCount(@ModelAttribute("pageModel") HomePageModel model) {
-        parseFrase.parse(model.getCountFor());
+        parsePhrase.parse(model.getCountFor());
         ModelAndView redirect = new ModelAndView("homepage");
         redirect.addObject("pageModel", model);
         return redirect;
@@ -33,7 +33,7 @@ public class HomeController {
 
     @RequestMapping(value = "/results", method = RequestMethod.GET)
     public ModelAndView askForResults(@ModelAttribute("pageModel") HomePageModel model) throws Exception {
-        model.setCountedWords(parseFrase.askForResults());
+        model.setCountedWords(parsePhrase.askForResults());
         ModelAndView modelAndView = new ModelAndView("homepage");
         modelAndView.addObject("pageModel", model);
         return modelAndView;
